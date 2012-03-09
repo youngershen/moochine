@@ -30,13 +30,57 @@ function read_all(filename)
     return data
 end
 
+function app_name()
+    return ngx.var.MOOCHINE_APP_NAME or "mch_defaut_app"
+end
 
-function setup_app_env(mch_home,app_path,global)
-    global['MOOCHINE_HOME']=mch_home
-    global['MOOCHINE_APP']=string.match(app_path,'^.*/([^/]+)/?$')
-    global['MOOCHINE_APP_PATH']=app_path
-    package.path = mch_home .. '/lualibs/?.lua;' .. package.path
-    package.path = app_path .. '/app/?.lua;' .. package.path
+function split(str,sep)
+    local ret={}
+    local s,e=string.find(str,sep)
+    if not s then
+        ret[#ret+1]=str
+        return ret
+    end
+    
+    while true do
+        ns,e,s=e+1,s-1,1
+        ret[#ret+1]=string.sub(str,s,e)
+        str=string.sub(str,ns)
+        s,e=string.find(str,sep)
+        if not s then
+            ret[#ret+1]=str
+            break
+        end
+    end
+    
+    return ret
+end
+
+function moochine_require(str)
+    local app_name=app_name()
+    _G[app_name] = _G[app_name] or {}
+    local mod=_G[app_name][str]
+    if mod then return mod end
+    local path_str=string.gsub(str,"%.","/")
+    local path=ngx.var.MOOCHINE_APP_PATH .. "/app/" .. path_str .. ".lua"
+    
+    ngx.log(ngx.ERR,"!!!",path,"\n\t",tostring(_G),tostring(mch))
+    local module=loadfile(path)(str)
+    
+    if type(module) == "table" then
+        _G[app_name][str]=module
+        return module
+    else
+        module=package.loaded[str]
+        if module then
+            _G[app_name][str]=module
+            return module
+        end
+    end
+    return nil
+end
+
+function setup_app_env(mch_home,app_path,app_name,global)
     local request=require("mch.request")
     local response=require("mch.response")
     global['MOOCHINE_MODULES']={}

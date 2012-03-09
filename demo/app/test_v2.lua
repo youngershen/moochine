@@ -8,13 +8,13 @@
 module("test_v2",package.seeall)
 
 local JSON = require("cjson")
-require("mch.controller")
+local controller=require("mch.controller")
 
 --[[
   Controller : ctller_v2
 --]]
 
-ctller_v2=mch.controller.Controller:new()
+ctller_v2=controller.Controller:new()
 
 function ctller_v2:before(req, resp)
     resp:writeln("BEFORE FILTER")
@@ -42,7 +42,7 @@ end
   Controller : ctller_ltpv2
 --]]
 
-ctller_ltpv2=mch.controller.Controller:new()
+ctller_ltpv2=controller.Controller:new()
 
 function ctller_ltpv2:get(req,resp,...)
     resp:ltp('ltp.html',{v=123})

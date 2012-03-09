@@ -22,16 +22,18 @@
 module('mch.router',package.seeall)
 
 require 'mch.functional'
+require 'mch.util'
 
 function map(route_table, uri, func_name)
     local mod,fn = string.match(func_name,'^(.+)%.([^.]+)$')
-    mod=require(mod)
+    mod=mch.util.moochine_require(mod)
     route_table[uri]=mod[fn]
 end
 
 
-function setup(app_name)
-    app_name='MOOCHINE_APP_' .. app_name
+function setup()
+    local app_name='MOOCHINE_APP_' .. mch.util.app_name()
+    ngx.log(ngx.ERR,"***",app_name)
     if not _G[app_name] then
         _G[app_name]={}
     end

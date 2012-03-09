@@ -21,24 +21,31 @@
 
 
 function setup_app()
-    local app_path = ngx.var.MOOCHINE_APP
+    local app_path = ngx.var.MOOCHINE_APP_PATH
+    local app_name = ngx.var.MOOCHINE_APP_NAME or "mch_default_app"
     local mch_home = ngx.var.MOOCHINE_HOME
-    package.path = mch_home .. '/luasrc/?.lua;' .. package.path
+    if not _G['MOOCHINE_HOME'] then
+        _G['MOOCHINE_HOME']=mch_home
+        package.path = mch_home .. '/lualibs/?.lua;' .. package.path
+        package.path = mch_home .. '/luasrc/?.lua;' .. package.path
+        ngx.log(ngx.ERR,"0===",tostring(package.loaded['mch.router']))
+        ngx.log(ngx.ERR,"0===",tostring(mch))
+    end
     local mchutil=require("mch.util")
-    mchutil.setup_app_env(mch_home,app_path,_G)
-    require("routing")
+    mchutil.setup_app_env(mch_home,app_path,app_name,_G)
+    mchutil.moochine_require("routing")
 end
 
 function content()
-    if not _G['MOOCHINE_APP'] then
+    local app_env_key='MOOCHINE_APP_' .. (ngx.var.MOOCHINE_APP_NAME)
+    if not _G[app_env_key] then
         setup_app()
     end
-    if not _G['MOOCHINE_APP'] then
+    if not _G[app_env_key] then
         ngx.say('Can not setup MOOCHINE APP')
         ngx.exit(501)
     end
     local uri=ngx.var.REQUEST_URI
-    local app_env_key='MOOCHINE_APP_' .. _G['MOOCHINE_APP']
     local route_map=_G[app_env_key]['route_map']
     for k,v in pairs(route_map) do
         local args=string.match(uri, k)
