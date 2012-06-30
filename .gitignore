@@ -11,4 +11,5 @@ temp
 #vim temp file
 *.swp
 *.lua~
+*.*~
 

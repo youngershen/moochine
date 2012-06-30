@@ -8,3 +8,7 @@ demo/p-*
 
 #temp files
 temp
+#vim temp file
+*.swp
+*.lua~
+
