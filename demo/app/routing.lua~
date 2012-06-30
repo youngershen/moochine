@@ -12,7 +12,7 @@ mch.router.setup('demo')
 -- 1.simple function mapping
 map('^/hello%?name=(.*)',"test.hello")
 map('^/ltp$',"test.ltp")
-map('^/test', "test.sss")
+
 
 -- 2.mch controller mapping
 map('^/hello_v2%?name=(.*)',"test_v2.ctller_v2")

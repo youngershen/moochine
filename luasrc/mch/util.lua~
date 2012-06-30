@@ -29,7 +29,6 @@ function read_all(filename)
     end
     return data
 end
-
 function string_spliter(str, token)
 --split the string use the given token to a array-kind table    
 --younger added it
@@ -48,24 +47,13 @@ function string_spliter(str, token)
 
     while s and e do
         local substr = string.sub(str, s, e)
-        table.insert(r_table,s)
-        position = e+1
+        table.insert(r_table, substr)
+        position = e
         s,e = string.find(str, token, position)
     end
 
-    local ret_string = {}
-    for i=1,#r_table do
-        if i == 1 then
-            table.insert(ret_string, string.sub(str, 1, r_table[i] -1))
-        else
-            table.insert(ret_string, string.sub(str, r_table[i-1] +1, r_table[i] -1))
-        end
-    end
-    table.insert(ret_string, string.sub(str, r_table[#r_table]+1, string.len(str)))
-    return ret_string
+    return r_table
 end
-
-
 
 function setup_app_env(mch_home,app_path,global)
     global['MOOCHINE_HOME']=mch_home

@@ -31,7 +31,7 @@ end
 
 function sss(req, resp)
     resp:set_cookie('session_id', 'sfsdfsde', true, 1000, '/')
-    resp:set_cookie('test_id', 'sfsdf', true, 10000000000, '/test') 
+    resp:set_cookie('test_id', 'sfsdf', true, 1000, '/test') 
     resp:set_cookie('sssss', 'sfsdf', true, 100, '/')
     local headers  = req.headers
     local cookies = req.get_cookies()

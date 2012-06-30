@@ -15,7 +15,7 @@ http {
         location / {
             default_type text/html;
             set $MOOCHINE_HOME '/Users/YoungerShen/stuff/lua/moochine';
-            set $MOOCHINE_APP  '/Users/YoungerShen/stuff/lua/moochine/demo';      
+            set $MOOCHINE_APP  '/Users/YoungerShen/stuff/lua/moochine/demp/';      
             access_by_lua_file '$MOOCHINE_HOME/luasrc/mch_access.lua';
             content_by_lua_file '$MOOCHINE_HOME/luasrc/mch_content.lua';
         }

@@ -1,0 +1,2 @@
+2012/06/26 10:13:50 [emerg] 4906#0: open() "/Users/YoungerShen/stuff/lua/moochine/demo/nginx_tempconf/nginx.conf" failed (2: No such file or directory)
+2012/06/26 10:31:07 [emerg] 5933#0: open() "/Users/YoungerShen/stuff/lua/moochine/demo//nginx_tempconf/nginx.conf" failed (2: No such file or directory)

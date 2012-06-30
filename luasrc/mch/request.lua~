@@ -54,6 +54,7 @@ function Request:get_cookies()
 -- add by younger
 -- to apply the cookie string to a table
     local cookies = ngx.req.get_headers()['Cookie']
+    --local iter    = string.gmatch(cookies, '')
     local rtu = utils.string_spliter(cookies, ';')
     local cookies_table = {}
 
